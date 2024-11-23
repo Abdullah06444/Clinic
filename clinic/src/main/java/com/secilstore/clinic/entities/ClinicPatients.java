@@ -1,10 +1,10 @@
 package com.secilstore.clinic.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
+@Entity (name = "CLINIC_PATIENTS")
+@Data
 public class ClinicPatients {
 
     @Id
@@ -12,11 +12,11 @@ public class ClinicPatients {
     private int id;
 
     @Column(name = "PATIENT_ID", length = 5, nullable = false, unique = true)
-    private long patient_id;
+    private long patientId;
 
     @Column(name = "PATIENT_NAME", length = 50, nullable = false)
-    private String name;
+    private String patientName;
 
     @Column(name = "PATIENT_SURNAME", length = 50, nullable = false)
-    private String surname;
+    private String patientSurname;
 }

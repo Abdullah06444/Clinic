@@ -1,12 +1,12 @@
 package com.secilstore.clinic.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Entity(name = "CLINIC_APPOINTMENTS")
+@Data
 public class ClinicAppointments {
 
     @Id
@@ -14,14 +14,14 @@ public class ClinicAppointments {
     private int id;
 
     @Column(name = "DOCTOR_ID")
-    private long doctor_id;
+    private long clinicDoctorId;
 
     @Column(name = "PATIENT_ID", length = 5, nullable = false, unique = true)
-    private long patient_id;
+    private long clinicPatientId;
 
     @Column(name = "START_DATE", nullable = false, updatable = true)
-    private LocalDateTime startDate;
+    private LocalDateTime appointmentStartDate;
 
     @Column(name = "END_DATE", nullable = false, updatable = true)
-    private LocalDateTime endDate;
+    private LocalDateTime appointmentEndDate;
 }

@@ -11,10 +11,10 @@ public class ClinicDoctors {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Long id;
 
     @Column(name = "DOCTOR_ID", length = 5, nullable = false, unique = true)
-    private long doctorId;
+    private Long doctorId;
 
     @Column(name = "DOCTOR_NAME", length = 50, nullable = false)
     private String doctorName;
@@ -23,5 +23,5 @@ public class ClinicDoctors {
     private String doctorSurname;
 
     @Column(name = "DOCTOR_FEE", nullable = false, precision = 4, scale = 2)
-    private double doctorPerHourFee;
+    private Double doctorPerHourFee;
 }

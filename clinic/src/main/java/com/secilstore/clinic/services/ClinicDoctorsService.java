@@ -1,5 +1,7 @@
 package com.secilstore.clinic.services;
 
+import com.secilstore.clinic.dto.ClinicDoctorsDto;
+import com.secilstore.clinic.dto.ClinicDoctorsDtoConverter;
 import com.secilstore.clinic.entities.ClinicDoctors;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +11,15 @@ import java.util.List;
 @Service
 public class ClinicDoctorsService {
 
-    public List<ClinicDoctors> list(){
+    final ClinicDoctorsDtoConverter clinicDoctorsDtoConverter;
 
-        List<ClinicDoctors> clinicDoctorsList = new LinkedList<>();
+    public ClinicDoctorsService(ClinicDoctorsDtoConverter clinicDoctorsDtoConverter) {
+        this.clinicDoctorsDtoConverter = clinicDoctorsDtoConverter;
+    }
+
+    public List<ClinicDoctorsDto> list(){
+
+        List<ClinicDoctorsDto> clinicDoctorsDtoList = new LinkedList<>();
 
         ClinicDoctors clinicDoctors = new ClinicDoctors();
         clinicDoctors.setId(4);
@@ -20,7 +28,7 @@ public class ClinicDoctorsService {
         clinicDoctors.setDoctorSurname("Eliaçık");
         clinicDoctors.setDoctorPerHourFee(300.02);
 
-        clinicDoctorsList.add(clinicDoctors);
+        clinicDoctorsDtoList.add(clinicDoctorsDtoConverter.convert(clinicDoctors));
 
         ClinicDoctors clinicDoctors2 = new ClinicDoctors();
         clinicDoctors2.setId(5);
@@ -29,7 +37,7 @@ public class ClinicDoctorsService {
         clinicDoctors2.setDoctorSurname("Tokgöz");
         clinicDoctors2.setDoctorPerHourFee(420.22);
 
-        clinicDoctorsList.add(clinicDoctors2);
+        clinicDoctorsDtoList.add(clinicDoctorsDtoConverter.convert(clinicDoctors2));
 
         ClinicDoctors clinicDoctors3 = new ClinicDoctors();
         clinicDoctors3.setId(6);
@@ -38,8 +46,8 @@ public class ClinicDoctorsService {
         clinicDoctors3.setDoctorSurname("Karagöz");
         clinicDoctors3.setDoctorPerHourFee(326.00);
 
-        clinicDoctorsList.add(clinicDoctors3);
+        clinicDoctorsDtoList.add(clinicDoctorsDtoConverter.convert(clinicDoctors3));
 
-        return clinicDoctorsList;
+        return clinicDoctorsDtoList;
     }
 }

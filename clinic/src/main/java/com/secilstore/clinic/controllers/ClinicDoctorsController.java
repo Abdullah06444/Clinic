@@ -1,5 +1,6 @@
 package com.secilstore.clinic.controllers;
 
+import com.secilstore.clinic.dto.ClinicDoctorsDto;
 import com.secilstore.clinic.entities.ClinicDoctors;
 import com.secilstore.clinic.services.ClinicDoctorsService;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class ClinicDoctorsController {
     }
 
     @GetMapping("/list")
-    public List<ClinicDoctors> list(){
+    public List<ClinicDoctorsDto> list(){
         return clinicDoctorsService.list();
     }
 }

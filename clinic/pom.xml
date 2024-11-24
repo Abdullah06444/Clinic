@@ -75,10 +75,4 @@
 		</plugins>
 	</build>
 
-	<distributionManagement>
-		<repository>
-			<id>github</id>
-			<url>https://maven.pkg.github.com/Abdullah06444/Clinic</url>
-		</repository>
-	</distributionManagement>
 </project>

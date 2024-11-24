@@ -3,6 +3,7 @@ package com.secilstore.clinic.services;
 import com.secilstore.clinic.dto.ClinicDoctorsDto;
 import com.secilstore.clinic.dto.ClinicDoctorsDtoConverter;
 import com.secilstore.clinic.entities.ClinicDoctors;
+import com.secilstore.clinic.repositories.ClinicDoctorsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -11,10 +12,21 @@ import java.util.List;
 @Service
 public class ClinicDoctorsService {
 
-    final ClinicDoctorsDtoConverter clinicDoctorsDtoConverter;
+    private final ClinicDoctorsDtoConverter clinicDoctorsDtoConverter;
+    private final ClinicDoctorsRepository clinicDoctorsRepository;
 
-    public ClinicDoctorsService(ClinicDoctorsDtoConverter clinicDoctorsDtoConverter) {
+    public ClinicDoctorsService(ClinicDoctorsDtoConverter clinicDoctorsDtoConverter, ClinicDoctorsRepository clinicDoctorsRepository) {
         this.clinicDoctorsDtoConverter = clinicDoctorsDtoConverter;
+        this.clinicDoctorsRepository = clinicDoctorsRepository;
+    }
+
+    public List<ClinicDoctorsDto> saveClinicDoctors(ClinicDoctors clinicDoctors) {
+
+        List<ClinicDoctorsDto> clinicDoctorsDtoResult = new LinkedList<>();
+
+        clinicDoctorsRepository.save(clinicDoctors);
+
+        return  clinicDoctorsDtoResult;
     }
 
     public List<ClinicDoctorsDto> list(){

@@ -9,10 +9,10 @@ public class ClinicPatients {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     @Column(name = "PATIENT_ID", length = 5, nullable = false, unique = true)
-    private long patientId;
+    private Long patientId;
 
     @Column(name = "PATIENT_NAME", length = 50, nullable = false)
     private String patientName;

@@ -8,7 +8,7 @@ public class ClinicDoctorsDtoConverter {
 
     public ClinicDoctorsDto convert(ClinicDoctors clinicDoctors){
 
-        return new ClinicDoctorsDto(clinicDoctors.getId(), clinicDoctors.getDoctorId(), clinicDoctors.getDoctorName(),
+        return new ClinicDoctorsDto(clinicDoctors.getDoctorId(), clinicDoctors.getDoctorName(),
                 clinicDoctors.getDoctorSurname(), clinicDoctors.getDoctorPerHourFee());
     }
 }

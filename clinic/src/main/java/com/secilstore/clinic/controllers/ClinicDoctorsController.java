@@ -17,7 +17,7 @@ public class ClinicDoctorsController {
 
     @PostMapping
     public ClinicDoctors save(@RequestBody ClinicDoctors clinicDoctors){
-        return clinicDoctors;
+        return clinicDoctorsService.saveClinicDoctors(clinicDoctors);
     }
 
     @GetMapping("/list")

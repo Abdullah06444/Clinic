@@ -3,6 +3,8 @@ package com.secilstore.clinic.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Entity (name = "CLINIC_DOCTORS")
 @Data
 public class ClinicDoctors {
@@ -11,7 +13,7 @@ public class ClinicDoctors {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     @Column(name = "DOCTOR_ID", length = 5, nullable = false, unique = true)
     private Long doctorId;
@@ -22,6 +24,6 @@ public class ClinicDoctors {
     @Column(name = "DOCTOR_SURNAME", length = 50, nullable = false)
     private String doctorSurname;
 
-    @Column(name = "DOCTOR_FEE", nullable = false/*, precision = 4, scale = 2*/)
-    private Double doctorPerHourFee;
+    @Column(name = "DOCTOR_FEE", nullable = false, precision = 6, scale = 2)
+    private BigDecimal doctorPerHourFee;
 }

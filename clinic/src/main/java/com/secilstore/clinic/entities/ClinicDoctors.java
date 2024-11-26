@@ -22,6 +22,6 @@ public class ClinicDoctors {
     @Column(name = "DOCTOR_SURNAME", length = 50, nullable = false)
     private String doctorSurname;
 
-    @Column(name = "DOCTOR_FEE", nullable = false, precision = 4, scale = 2)
+    @Column(name = "DOCTOR_FEE", nullable = false/*, precision = 4, scale = 2*/)
     private Double doctorPerHourFee;
 }

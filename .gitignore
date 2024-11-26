@@ -1,3 +1,5 @@
 /.idea/
 ClinicOperationsDb.mv.db
 ClinicOperationsDb.trace.db
+docker-compose.yml
+out/

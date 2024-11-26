@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/doctor") // url farklı olması icin, digerleri ile cakismasin diye
+@RequestMapping("/doctor")
 public class ClinicDoctorsController {
 
     private final ClinicDoctorsService clinicDoctorsService;
@@ -22,6 +22,6 @@ public class ClinicDoctorsController {
 
     @GetMapping("/list")
     public List<ClinicDoctorsDto> list(){
-        return clinicDoctorsService.list();
+        return clinicDoctorsService.listClinicDoctors();
     }
 }

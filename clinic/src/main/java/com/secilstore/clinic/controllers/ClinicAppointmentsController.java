@@ -18,8 +18,8 @@ public class ClinicAppointmentsController {
     private final ClinicAppointmentsService clinicAppointmentsService;
 
     @PostMapping
-    public ClinicAppointments save(@RequestBody ClinicAppointments clinicAppointments) {
-        return clinicAppointmentsService.saveClinicAppointments(clinicAppointments);
+    public ClinicAppointments save(@RequestBody ClinicAppointmentsDto clinicAppointmentsDto) {
+        return clinicAppointmentsService.saveClinicAppointments(clinicAppointmentsDto);
     }
 
     @GetMapping("/list")

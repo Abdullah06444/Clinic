@@ -1,7 +1,10 @@
 package com.secilstore.clinic.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -14,11 +17,17 @@ public class ClinicAppointments {
     @SequenceGenerator(name = "CLINIC_APPOINTMENTS_SEQ", sequenceName = "CLINIC_APPOINTMENTS_SEQUENCE", allocationSize = 1)
     private Integer id;
 
-    @Column(name = "DOCTOR_ID")
-    private Long clinicDoctorId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "DOCTOR_ID", referencedColumnName = "DOCTOR_ID", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private ClinicDoctors clinicDoctors;
 
-    @Column(name = "PATIENT_ID", length = 5, nullable = false, unique = true)
-    private Long clinicPatientId;
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "PATIENT_ID", referencedColumnName = "PATIENT_ID", nullable = false, unique = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private ClinicPatients clinicPatients;
 
     @Column(name = "START_DATE", nullable = false, updatable = true)
     private LocalDateTime appointmentStartDate;

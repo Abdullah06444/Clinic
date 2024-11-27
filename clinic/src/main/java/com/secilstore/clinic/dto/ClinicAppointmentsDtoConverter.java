@@ -6,9 +6,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClinicAppointmentsDtoConverter {
 
-    public ClinicAppointmentsDto convert(ClinicAppointments clinicAppointments) {
+    public ClinicAppointmentsDto convert(ClinicAppointments clinicAppointments,
+                                         Long doctorId, Long patientId) {
 
-        return new ClinicAppointmentsDto(clinicAppointments.getClinicDoctorId(), clinicAppointments.getClinicPatientId(),
+        return new ClinicAppointmentsDto(doctorId, patientId,
                 clinicAppointments.getAppointmentStartDate(), clinicAppointments.getAppointmentEndDate());
     }
 }

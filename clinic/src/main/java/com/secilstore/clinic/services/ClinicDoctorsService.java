@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -18,12 +19,32 @@ public class ClinicDoctorsService {
 
     public ClinicDoctors saveClinicDoctors(ClinicDoctors clinicDoctors) {
 
-        return clinicDoctorsRepository.save(clinicDoctors);
+        return clinicDoctorsRepository.save(clinicDoctors); //id aynı olursa 500 hatasına birşey dön
     }
 
-    public List<ClinicDoctorsDto> listClinicDoctors(){
+    public List<ClinicDoctorsDto> listClinicDoctors() {
 
         return clinicDoctorsRepository.findAll()
-                .stream().map(clinicDoctorsDtoConverter::convert).toList();
+                .stream().map(clinicDoctorsDtoConverter::convertAllFields).toList();
+    }
+
+    public ClinicDoctors getClinicDoctors(Long doctorId) {
+
+        return clinicDoctorsRepository.findByDoctorId(doctorId);//clinicAppointmentList bak, eksik fieldleri ekle // olmayan id de dönen hata orElse(null) ile kapatılmış
+    }
+
+    public ClinicDoctors updateClinicDoctors(Long doctorId, ClinicDoctors updateClinicDoctors) {
+        Optional<ClinicDoctors> getClinicDoctors = Optional.ofNullable(this.getClinicDoctors(doctorId));
+        if(getClinicDoctors.isPresent()){
+            ClinicDoctors foundClinicDoctors = getClinicDoctors.get();
+            foundClinicDoctors.setDoctorPerHourFee(updateClinicDoctors.getDoctorPerHourFee());
+            return this.saveClinicDoctors(foundClinicDoctors);
+        }
+        return null;
+    }
+
+    public void deleteClinicDoctors(Long doctorId) {
+
+        clinicDoctorsRepository.deleteByDoctorId(doctorId);//doktor yoksa bulunamadı diye uyarı göster
     }
 }

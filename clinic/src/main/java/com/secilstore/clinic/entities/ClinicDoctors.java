@@ -4,12 +4,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity (name = "CLINIC_DOCTORS")
 @Data
 public class ClinicDoctors {
-
-    // id, doctor_id, name, perHourFee, surname
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CLINIC_DOCTORS_SEQ")
@@ -27,4 +26,7 @@ public class ClinicDoctors {
 
     @Column(name = "DOCTOR_FEE", nullable = false, precision = 6, scale = 2)
     private BigDecimal doctorPerHourFee;
+
+    @OneToMany(mappedBy = "clinicDoctors", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClinicAppointments> clinicAppointmentsList;
 }

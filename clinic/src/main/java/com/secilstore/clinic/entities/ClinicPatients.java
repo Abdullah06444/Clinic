@@ -20,4 +20,7 @@ public class ClinicPatients {
 
     @Column(name = "PATIENT_SURNAME", length = 50, nullable = false)
     private String patientSurname;
+
+    @OneToOne(mappedBy = "clinicPatients", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ClinicAppointments clinicAppointments;
 }

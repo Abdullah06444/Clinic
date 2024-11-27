@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 public class ClinicAppointments {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CLINIC_APPOINTMENTS_SEQ")
+    @SequenceGenerator(name = "CLINIC_APPOINTMENTS_SEQ", sequenceName = "CLINIC_APPOINTMENTS_SEQUENCE", allocationSize = 1)
     private Integer id;
 
     @Column(name = "DOCTOR_ID")

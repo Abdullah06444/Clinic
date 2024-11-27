@@ -12,7 +12,8 @@ public class ClinicDoctors {
     // id, doctor_id, name, perHourFee, surname
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CLINIC_DOCTORS_SEQ")
+    @SequenceGenerator(name = "CLINIC_DOCTORS_SEQ", sequenceName = "CLINIC_DOCTORS_SEQUENCE", allocationSize = 1)
     private Integer id;
 
     @Column(name = "DOCTOR_ID", length = 5, nullable = false, unique = true)

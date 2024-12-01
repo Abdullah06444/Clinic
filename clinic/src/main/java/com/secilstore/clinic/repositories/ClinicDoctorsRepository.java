@@ -25,8 +25,9 @@ public interface ClinicDoctorsRepository extends JpaRepository<ClinicDoctors, In
     @Query(value = "ALTER SEQUENCE CLINIC_DOCTORS_SEQUENCE RESTART WITH ?1", nativeQuery = true)
     void resetSequence(Integer restartWith);
 
-    ClinicDoctors findByDoctorId(Long doctorId);
+    Optional<ClinicDoctors> findByDoctorId(Long doctorId);
 
+    @Modifying
     @Transactional
     void deleteByDoctorId(Long doctorId);
 }

@@ -1,6 +1,5 @@
 package com.secilstore.clinic.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -14,6 +13,7 @@ public class ClinicDoctorsDto {
     private BigDecimal doctorPerHourFee;
 
     public ClinicDoctorsDto(Long doctorId, String doctorName, String doctorSurname, BigDecimal doctorPerHourFee) {
+
         this.doctorId = doctorId;
         this.doctorName = doctorName;
         this.doctorSurname = doctorSurname;
@@ -21,6 +21,7 @@ public class ClinicDoctorsDto {
     }
 
     public ClinicDoctorsDto(String doctorName, String doctorSurname, BigDecimal doctorPerHourFee) {
+
         this.doctorName = doctorName;
         this.doctorSurname = doctorSurname;
         this.doctorPerHourFee = doctorPerHourFee;

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClinicPatientsDtoConverter {
 
-    public ClinicPatientsDto convert(ClinicPatients clinicPatients) {
+    public ClinicPatientsDto convertAllFields(ClinicPatients clinicPatients) {
 
         return new ClinicPatientsDto(clinicPatients.getPatientId(), clinicPatients.getPatientName(),
                 clinicPatients.getPatientSurname());

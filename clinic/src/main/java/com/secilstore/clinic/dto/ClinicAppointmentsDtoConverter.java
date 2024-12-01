@@ -9,7 +9,7 @@ public class ClinicAppointmentsDtoConverter {
     public ClinicAppointmentsDto convert(ClinicAppointments clinicAppointments,
                                          Long doctorId, Long patientId) {
 
-        return new ClinicAppointmentsDto(doctorId, patientId,
+        return new ClinicAppointmentsDto(clinicAppointments.getAppointmentId(), doctorId, patientId,
                 clinicAppointments.getAppointmentStartDate(), clinicAppointments.getAppointmentEndDate());
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface ClinicAppointmentsRepository extends JpaRepository<ClinicAppointments, Integer> {
 
@@ -22,4 +24,12 @@ public interface ClinicAppointmentsRepository extends JpaRepository<ClinicAppoin
     @Transactional
     @Query(value = "ALTER SEQUENCE CLINIC_APPOINTMENTS_SEQUENCE RESTART WITH ?1", nativeQuery = true)
     void resetSequence(Integer restartWith);
+
+    //ClinicAppointments findByAppointmentId(Long appointmentId);
+
+    Optional<ClinicAppointments> findByAppointmentId(Long appointmentId);
+
+    @Modifying
+    @Transactional
+    void deleteByAppointmentId(Long appointmentId);
 }

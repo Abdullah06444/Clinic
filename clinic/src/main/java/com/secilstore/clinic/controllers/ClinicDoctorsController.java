@@ -3,11 +3,12 @@ package com.secilstore.clinic.controllers;
 import com.secilstore.clinic.dto.ClinicDoctorsDto;
 import com.secilstore.clinic.entities.ClinicDoctors;
 import com.secilstore.clinic.services.ClinicDoctorsService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -23,8 +24,9 @@ public class ClinicDoctorsController {
 
     @GetMapping("/{doctorId}")
     public ClinicDoctors get(@PathVariable Long doctorId){
-        Optional<ClinicDoctors> getClinicDoctors = Optional.ofNullable(clinicDoctorsService.getClinicDoctors(doctorId));
-        return getClinicDoctors.orElse(null);
+
+        return clinicDoctorsService.getClinicDoctors(doctorId)
+                .orElseThrow(() -> new EntityNotFoundException("Appointment not found with ID: " + doctorId));
     }
 
     @GetMapping("/list")

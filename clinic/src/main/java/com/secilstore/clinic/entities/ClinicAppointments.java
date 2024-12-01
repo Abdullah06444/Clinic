@@ -17,16 +17,19 @@ public class ClinicAppointments {
     @SequenceGenerator(name = "CLINIC_APPOINTMENTS_SEQ", sequenceName = "CLINIC_APPOINTMENTS_SEQUENCE", allocationSize = 1)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @Column(name = "APPOINTMENT_ID", length = 5, nullable = false, unique = true)
+    private Long appointmentId;
+
+    @ManyToOne //(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "DOCTOR_ID", referencedColumnName = "DOCTOR_ID", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
+//    @OnDelete(action = OnDeleteAction.CASCADE) // Patients sildiğimizde onun randevusuna bağlı doktor silinmesin diye comment line
+//    @JsonIgnore
     private ClinicDoctors clinicDoctors;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne //(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "PATIENT_ID", referencedColumnName = "PATIENT_ID", nullable = false, unique = true)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
+//    @OnDelete(action = OnDeleteAction.CASCADE)
+//    @JsonIgnore
     private ClinicPatients clinicPatients;
 
     @Column(name = "START_DATE", nullable = false, updatable = true)

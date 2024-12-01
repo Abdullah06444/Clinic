@@ -2,9 +2,13 @@ package com.secilstore.clinic.services;
 
 import com.secilstore.clinic.dto.ClinicDoctorsDto;
 import com.secilstore.clinic.dto.ClinicDoctorsDtoConverter;
+import com.secilstore.clinic.entities.ClinicAppointments;
 import com.secilstore.clinic.entities.ClinicDoctors;
+import com.secilstore.clinic.entities.ClinicPatients;
 import com.secilstore.clinic.repositories.ClinicAppointmentsRepository;
 import com.secilstore.clinic.repositories.ClinicDoctorsRepository;
+import com.secilstore.clinic.repositories.ClinicPatientsRepository;
+import com.secilstore.clinic.utils.GenerateUniqueEntityIds;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +17,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
@@ -21,38 +29,39 @@ public class ClinicDoctorsService {
     private final ClinicDoctorsDtoConverter clinicDoctorsDtoConverter;
     private final ClinicDoctorsRepository clinicDoctorsRepository;
     private final ClinicAppointmentsRepository clinicAppointmentsRepository;
+    private final ClinicPatientsRepository clinicPatientsRepository;
+    private final GenerateUniqueEntityIds generateUniqueEntityIds;
 
-    public ClinicDoctors saveClinicDoctors(ClinicDoctors clinicDoctors) {
-//id aynı olursa 500 hatasına birşey dön
-        return clinicDoctorsRepository.save(clinicDoctors);
+    public Optional<ClinicDoctors> saveClinicDoctors(ClinicDoctorsDto clinicDoctorsDto) {
+
+        ClinicDoctors clinicDoctors = new ClinicDoctors();
+        clinicDoctors.setDoctorId(generateUniqueEntityIds.generateUniqueEntityId());
+        clinicDoctors.setDoctorName(clinicDoctorsDto.getDoctorName());
+        clinicDoctors.setDoctorSurname(clinicDoctorsDto.getDoctorSurname());
+        clinicDoctors.setDoctorPerHourFee(clinicDoctorsDto.getDoctorPerHourFee());
+        return Optional.of(clinicDoctorsRepository.save(clinicDoctors));
     }
 
-    public List<ClinicDoctorsDto> listClinicDoctors() {
+    public Optional<List<ClinicDoctorsDto>> listClinicDoctors() {
 
-        return clinicDoctorsRepository.findAll()
-                .stream().map(clinicDoctorsDtoConverter::convertAllFields).toList();
+        return Optional.of(clinicDoctorsRepository.findAll()
+                .stream().map(clinicDoctorsDtoConverter::convertAllFields).toList());
     }
 
     public Optional<ClinicDoctors> getClinicDoctors(Long doctorId) {
-//clinicAppointmentList bak, eksik fieldleri ekle // olmayan id de dönen hata orElse(null) ile kapatılmış
-        return Optional.ofNullable(clinicDoctorsRepository.findByDoctorId(doctorId)
-                .orElseThrow(() -> new EntityNotFoundException("Appointment not found with ID: " + doctorId)));
+
+        return Optional.ofNullable(clinicDoctorsRepository.findByDoctorId(doctorId));
     }
 
-    public ClinicDoctors updateClinicDoctors(Long doctorId, ClinicDoctors updateClinicDoctors) {
+    public Optional<Integer> updateClinicDoctors(Long doctorId, ClinicDoctorsDto clinicDoctorsDto) {
 
-        Optional<ClinicDoctors> getClinicDoctors = this.getClinicDoctors(doctorId);
-        if(getClinicDoctors.isPresent()){
-
-            ClinicDoctors foundClinicDoctors = getClinicDoctors.get();
-            foundClinicDoctors.setDoctorPerHourFee(updateClinicDoctors.getDoctorPerHourFee());
-            return this.saveClinicDoctors(foundClinicDoctors);
-        }
-        return null;
+        return clinicDoctorsRepository.updateDoctorPerHourFeeByDoctorId(doctorId, clinicDoctorsDto.getDoctorPerHourFee());
     }
 
-    public void deleteClinicDoctors(Long doctorId) {
+    public Optional<Integer> deleteClinicDoctors(Long doctorId) {
 
-        clinicDoctorsRepository.deleteByDoctorId(doctorId);
+        Optional<Integer> clinicDoctors = Optional.ofNullable(clinicDoctorsRepository.deleteClinicDoctorByDoctorId(doctorId));
+        clinicAppointmentsRepository.deleteClinicAppointmentsByDoctorId(doctorId);
+        return clinicDoctors;
     }
 }

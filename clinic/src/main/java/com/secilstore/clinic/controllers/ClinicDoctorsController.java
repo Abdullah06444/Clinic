@@ -5,10 +5,12 @@ import com.secilstore.clinic.entities.ClinicDoctors;
 import com.secilstore.clinic.services.ClinicDoctorsService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -18,29 +20,37 @@ public class ClinicDoctorsController {
     private final ClinicDoctorsService clinicDoctorsService;
 
     @PostMapping
-    public ClinicDoctors save(@RequestBody ClinicDoctors clinicDoctors){
-        return clinicDoctorsService.saveClinicDoctors(clinicDoctors);
+    public ClinicDoctors save(@RequestBody ClinicDoctorsDto clinicDoctorsDto){
+
+        return clinicDoctorsService.saveClinicDoctors(clinicDoctorsDto)
+                .orElseThrow(() -> new EntityNotFoundException("Yeni veri kaydedilemedi."));
     }
 
     @GetMapping("/{doctorId}")
     public ClinicDoctors get(@PathVariable Long doctorId){
 
         return clinicDoctorsService.getClinicDoctors(doctorId)
-                .orElseThrow(() -> new EntityNotFoundException("Appointment not found with ID: " + doctorId));
+                .orElseThrow(() -> new EntityNotFoundException("Bu " + doctorId + " ile herhangi bir kayıt bulunamadı."));
     }
 
     @GetMapping("/list")
     public List<ClinicDoctorsDto> list(){
-        return clinicDoctorsService.listClinicDoctors();
+
+        return clinicDoctorsService.listClinicDoctors()
+                .orElseThrow(() -> new EntityNotFoundException("Herhangi bir doktor kaydı bulunamadı."));
     }
 
     @PutMapping("/{doctorId}")
-    public ClinicDoctors update(@PathVariable Long doctorId, @RequestBody ClinicDoctors updateClinicDoctors){
-        return clinicDoctorsService.updateClinicDoctors(doctorId, updateClinicDoctors);
+    public Integer update(@PathVariable Long doctorId, @RequestBody ClinicDoctorsDto clinicDoctorsDto){
+
+        return clinicDoctorsService.updateClinicDoctors(doctorId, clinicDoctorsDto)
+                .orElseThrow(() -> new EntityNotFoundException("Bu " + doctorId + " ile herhangi bir kayıt bulunup güncellenmedi."));
     }
 
     @DeleteMapping("/{doctorId}")
-    public void delete(@PathVariable Long doctorId){
-        clinicDoctorsService.deleteClinicDoctors(doctorId); // varsa siler yoksa boş döner
+    public Integer delete(@PathVariable Long doctorId){
+
+        return clinicDoctorsService.deleteClinicDoctors(doctorId)
+                .orElseThrow(() -> new EntityNotFoundException("Bu " + doctorId + " ile herhangi bir kayıt bulunup silinemedi.."));
     }
 }

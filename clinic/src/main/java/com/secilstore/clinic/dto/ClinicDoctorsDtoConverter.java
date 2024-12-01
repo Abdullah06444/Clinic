@@ -11,4 +11,10 @@ public class ClinicDoctorsDtoConverter {
         return new ClinicDoctorsDto(clinicDoctors.getDoctorId(), clinicDoctors.getDoctorName(),
                 clinicDoctors.getDoctorSurname(), clinicDoctors.getDoctorPerHourFee());
     }
+
+    public ClinicDoctorsDto convertFieldsExceptDoctorId(ClinicDoctors clinicDoctors){
+
+        return new ClinicDoctorsDto(clinicDoctors.getDoctorName(),
+                clinicDoctors.getDoctorSurname(), clinicDoctors.getDoctorPerHourFee());
+    }
 }

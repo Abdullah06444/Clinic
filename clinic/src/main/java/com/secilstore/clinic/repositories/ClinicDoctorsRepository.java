@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Repository
@@ -25,9 +26,16 @@ public interface ClinicDoctorsRepository extends JpaRepository<ClinicDoctors, In
     @Query(value = "ALTER SEQUENCE CLINIC_DOCTORS_SEQUENCE RESTART WITH ?1", nativeQuery = true)
     void resetSequence(Integer restartWith);
 
-    Optional<ClinicDoctors> findByDoctorId(Long doctorId);
+    ClinicDoctors findByDoctorId(Long doctorId);
 
     @Modifying
     @Transactional
-    void deleteByDoctorId(Long doctorId);
+    @Query(value = "UPDATE CLINIC_DOCTORS d SET d.DOCTOR_FEE = ?2 WHERE d.DOCTOR_ID = ?1", nativeQuery = true)
+    Optional<Integer> updateDoctorPerHourFeeByDoctorId(Long doctorId, BigDecimal doctorPerHourFee);
+
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM CLINIC_DOCTORS d WHERE d.DOCTOR_ID = ?1", nativeQuery = true)
+    Integer deleteClinicDoctorByDoctorId(Long doctorId);
 }

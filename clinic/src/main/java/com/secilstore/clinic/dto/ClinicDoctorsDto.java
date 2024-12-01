@@ -12,6 +12,8 @@ public class ClinicDoctorsDto {
     private String doctorSurname;
     private BigDecimal doctorPerHourFee;
 
+    public ClinicDoctorsDto() {}
+
     public ClinicDoctorsDto(Long doctorId, String doctorName, String doctorSurname, BigDecimal doctorPerHourFee) {
 
         this.doctorId = doctorId;
@@ -24,6 +26,10 @@ public class ClinicDoctorsDto {
 
         this.doctorName = doctorName;
         this.doctorSurname = doctorSurname;
+        this.doctorPerHourFee = doctorPerHourFee;
+    }
+
+    public ClinicDoctorsDto(BigDecimal doctorPerHourFee) {
         this.doctorPerHourFee = doctorPerHourFee;
     }
 }

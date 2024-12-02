@@ -33,7 +33,6 @@ public interface ClinicDoctorsRepository extends JpaRepository<ClinicDoctors, In
     @Query(value = "UPDATE CLINIC_DOCTORS d SET d.DOCTOR_FEE = ?2 WHERE d.DOCTOR_ID = ?1", nativeQuery = true)
     Optional<Integer> updateDoctorPerHourFeeByDoctorId(Long doctorId, BigDecimal doctorPerHourFee);
 
-
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM CLINIC_DOCTORS d WHERE d.DOCTOR_ID = ?1", nativeQuery = true)

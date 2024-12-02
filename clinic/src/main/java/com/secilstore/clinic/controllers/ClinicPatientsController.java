@@ -5,7 +5,6 @@ import com.secilstore.clinic.entities.ClinicPatients;
 import com.secilstore.clinic.services.ClinicPatientsService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,15 +17,16 @@ public class ClinicPatientsController {
     private final ClinicPatientsService clinicPatientsService;
 
     @PostMapping
-    public ClinicPatients save(@RequestBody ClinicPatients clinicPatients){
-        return clinicPatientsService.saveClinicPatients(clinicPatients);
+    public ClinicPatients save(@RequestBody ClinicPatientsDto clinicPatientsDto){
+        return clinicPatientsService.saveClinicPatients(clinicPatientsDto)
+                .orElseThrow(() -> new EntityNotFoundException("Yeni veri kaydedilemedi."));
     }
 
     @GetMapping("/{patientId}")
     public ClinicPatients get(@PathVariable Long patientId){
 
         return clinicPatientsService.getClinicPatients(patientId)
-                .orElseThrow(() -> new EntityNotFoundException("Appointment not found with ID: " + patientId));
+                .orElseThrow(() -> new EntityNotFoundException("Bu " + patientId + " ile herhangi bir kayıt bulunamadı."));
     }
 
     @GetMapping("/list")
@@ -35,12 +35,15 @@ public class ClinicPatientsController {
     }
 
     @PutMapping("/{patientId}")
-    public ClinicPatients update(@PathVariable Long patientId, @RequestBody ClinicPatients updateClinicPatients){
-        return clinicPatientsService.updateClinicPatients(patientId, updateClinicPatients);
+    public Integer update(@PathVariable Long patientId, @RequestBody ClinicPatientsDto clinicPatientsDto){
+        return clinicPatientsService.updateClinicPatients(patientId, clinicPatientsDto)
+                .orElseThrow(() -> new EntityNotFoundException("Bu " + patientId + " ile herhangi bir kayıt bulunup güncellenmedi."));
     }
 
     @DeleteMapping("/{patientId}")
-    public void delete(@PathVariable Long patientId){
-        clinicPatientsService.deleteClinicPatients(patientId);
+    public Integer delete(@PathVariable Long patientId){
+
+        return clinicPatientsService.deleteClinicPatients(patientId)
+                .orElseThrow(() -> new EntityNotFoundException("Bu " + patientId + " ile herhangi bir kayıt bulunup silinemedi."));
     }
 }

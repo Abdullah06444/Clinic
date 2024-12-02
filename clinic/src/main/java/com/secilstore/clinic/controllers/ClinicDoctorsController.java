@@ -5,12 +5,9 @@ import com.secilstore.clinic.entities.ClinicDoctors;
 import com.secilstore.clinic.services.ClinicDoctorsService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -51,6 +48,6 @@ public class ClinicDoctorsController {
     public Integer delete(@PathVariable Long doctorId){
 
         return clinicDoctorsService.deleteClinicDoctors(doctorId)
-                .orElseThrow(() -> new EntityNotFoundException("Bu " + doctorId + " ile herhangi bir kayıt bulunup silinemedi.."));
+                .orElseThrow(() -> new EntityNotFoundException("Bu " + doctorId + " ile herhangi bir kayıt bulunup silinemedi."));
     }
 }

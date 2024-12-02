@@ -25,9 +25,15 @@ public interface ClinicPatientsRepository extends JpaRepository<ClinicPatients, 
     @Query(value = "ALTER SEQUENCE CLINIC_PATIENTS_SEQUENCE RESTART WITH ?1", nativeQuery = true)
     void resetSequence(Integer restartWith);
 
-    Optional<ClinicPatients> findByPatientId(Long patientId);
+    ClinicPatients findByPatientId(Long patientId);
 
     @Modifying
     @Transactional
-    void deleteByPatientId(Long patientId);
+    @Query(value = "UPDATE CLINIC_PATIENTS p SET p.PATIENT_NAME = ?2 WHERE p.PATIENT_ID = ?1", nativeQuery = true)
+    Optional<Integer> updatePatientNameByPatientId(Long patientId, String patientName);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM CLINIC_PATIENTS p WHERE p.PATIENT_ID = ?1", nativeQuery = true)
+    Integer deleteClinicPatientByPatientId(Long patientId);
 }

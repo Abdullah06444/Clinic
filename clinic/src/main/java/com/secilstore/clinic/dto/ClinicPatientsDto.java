@@ -9,6 +9,8 @@ public class ClinicPatientsDto {
     private String patientName;
     private String patientSurname;
 
+    public ClinicPatientsDto() {}
+
     public ClinicPatientsDto(Long patientId, String patientName, String patientSurname) {
 
         this.patientId = patientId;
@@ -19,5 +21,9 @@ public class ClinicPatientsDto {
     public ClinicPatientsDto(String patientName, String patientSurname) {
         this.patientName = patientName;
         this.patientSurname = patientSurname;
+    }
+
+    public ClinicPatientsDto(String patientName) {
+        this.patientName = patientName;
     }
 }

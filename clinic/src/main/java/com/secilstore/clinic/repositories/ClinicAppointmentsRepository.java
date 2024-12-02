@@ -37,4 +37,9 @@ public interface ClinicAppointmentsRepository extends JpaRepository<ClinicAppoin
     @Transactional
     @Query(value = "DELETE FROM CLINIC_APPOINTMENTS a WHERE a.DOCTOR_ID = ?1", nativeQuery = true)
     void deleteClinicAppointmentsByDoctorId(Long doctorId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM CLINIC_APPOINTMENTS a WHERE a.PATIENT_ID = ?1", nativeQuery = true)
+    void deleteClinicAppointmentByPatientId(Long patientId);
 }

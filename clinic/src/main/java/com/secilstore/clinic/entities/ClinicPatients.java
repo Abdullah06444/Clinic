@@ -2,8 +2,6 @@ package com.secilstore.clinic.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 @Entity (name = "CLINIC_PATIENTS")
 @Data

@@ -11,4 +11,9 @@ public class ClinicPatientsDtoConverter {
         return new ClinicPatientsDto(clinicPatients.getPatientId(), clinicPatients.getPatientName(),
                 clinicPatients.getPatientSurname());
     }
+
+    public ClinicPatientsDto convertFieldsExceptPatientId(ClinicPatients clinicPatients) {
+
+        return new ClinicPatientsDto(clinicPatients.getPatientName(), clinicPatients.getPatientSurname());
+    }
 }

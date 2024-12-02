@@ -5,10 +5,8 @@ import com.secilstore.clinic.dto.ClinicPatientsDto;
 import com.secilstore.clinic.entities.ClinicPatients;
 import com.secilstore.clinic.repositories.ClinicAppointmentsRepository;
 import com.secilstore.clinic.repositories.ClinicPatientsRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.secilstore.clinic.utils.GenerateUniqueEntityIds;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,11 +18,16 @@ public class ClinicPatientsService {
 
     private final ClinicPatientsDtoConverter clinicPatientsDtoConverter;
     private final ClinicPatientsRepository clinicPatientsRepository;
+    private final GenerateUniqueEntityIds generateUniqueEntityIds;
     private final ClinicAppointmentsRepository clinicAppointmentsRepository;
 
-    public ClinicPatients saveClinicPatients(ClinicPatients clinicPatients) {
+    public Optional<ClinicPatients> saveClinicPatients(ClinicPatientsDto clinicPatientsDto) {
 
-        return clinicPatientsRepository.save(clinicPatients);
+        ClinicPatients clinicPatients = new ClinicPatients();
+        clinicPatients.setPatientId(generateUniqueEntityIds.generateUniqueEntityId());
+        clinicPatients.setPatientName(clinicPatientsDto.getPatientName());
+        clinicPatients.setPatientSurname(clinicPatientsDto.getPatientSurname());
+        return Optional.of(clinicPatientsRepository.save(clinicPatients));
     }
 
     public List<ClinicPatientsDto> listClinicPatients() {
@@ -35,27 +38,18 @@ public class ClinicPatientsService {
 
     public Optional<ClinicPatients> getClinicPatients(Long patientId) {
 
-        return Optional.ofNullable(clinicPatientsRepository.findByPatientId(patientId)
-                .orElseThrow(() -> new EntityNotFoundException("Appointment not found with ID: " + patientId)));
+        return Optional.ofNullable(clinicPatientsRepository.findByPatientId(patientId));
     }
 
-    public ClinicPatients updateClinicPatients(Long patientId, ClinicPatients updateClinicPatients) {
+    public Optional<Integer> updateClinicPatients(Long patientId, ClinicPatientsDto clinicPatientsDto) {
 
-        Optional<ClinicPatients> getClinicPatients = this.getClinicPatients(patientId);
-        if(getClinicPatients.isPresent()) {
-
-            ClinicPatients foundClinicPatients = getClinicPatients.get();
-            /**
-             * foundClinicPatients.setPatientSurname(updateClinicPatients.getPatientSurname());
-             * Güncellenecek uygun değeri yok.
-             */
-            return this.saveClinicPatients(foundClinicPatients);
-        }
-        return null;
+        return clinicPatientsRepository.updatePatientNameByPatientId(patientId, clinicPatientsDto.getPatientName());
     }
 
-    public void deleteClinicPatients(Long patientId) {
+    public Optional<Integer> deleteClinicPatients(Long patientId) {
 
-        clinicPatientsRepository.deleteByPatientId(patientId);
+        Optional<Integer> deleteRows = Optional.of(clinicPatientsRepository.deleteClinicPatientByPatientId(patientId));
+        clinicAppointmentsRepository.deleteClinicAppointmentByPatientId(patientId);
+        return deleteRows;
     }
 }

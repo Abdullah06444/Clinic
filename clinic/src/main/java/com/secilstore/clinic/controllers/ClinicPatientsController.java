@@ -31,7 +31,8 @@ public class ClinicPatientsController {
 
     @GetMapping("/list")
     public List<ClinicPatientsDto> list(){
-        return clinicPatientsService.listClinicPatients();
+        return clinicPatientsService.listClinicPatients()
+                .orElseThrow(() -> new EntityNotFoundException("Herhangi bir hasta kaydı bulunamadı."));
     }
 
     @PutMapping("/{patientId}")

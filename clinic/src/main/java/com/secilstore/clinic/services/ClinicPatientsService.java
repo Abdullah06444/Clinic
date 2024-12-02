@@ -30,10 +30,10 @@ public class ClinicPatientsService {
         return Optional.of(clinicPatientsRepository.save(clinicPatients));
     }
 
-    public List<ClinicPatientsDto> listClinicPatients() {
+    public Optional<List<ClinicPatientsDto>> listClinicPatients() {
 
-        return clinicPatientsRepository.findAll()
-                .stream().map(clinicPatientsDtoConverter::convertAllFields).toList();
+        return Optional.of(clinicPatientsRepository.findAll()
+                .stream().map(clinicPatientsDtoConverter::convertAllFields).toList());
     }
 
     public Optional<ClinicPatients> getClinicPatients(Long patientId) {

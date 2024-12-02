@@ -37,4 +37,9 @@ public class ClinicAppointmentsDto {
         this.clinicDoctorId = clinicDoctorId;
         this.clinicPatientId = clinicPatientId;
     }
+
+    public ClinicAppointmentsDto(LocalDateTime appointmentEndDate, LocalDateTime appointmentStartDate) {
+        this.appointmentEndDate = appointmentEndDate;
+        this.appointmentStartDate = appointmentStartDate;
+    }
 }

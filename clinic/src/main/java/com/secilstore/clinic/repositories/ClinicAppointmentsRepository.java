@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Repository
@@ -25,13 +26,12 @@ public interface ClinicAppointmentsRepository extends JpaRepository<ClinicAppoin
     @Query(value = "ALTER SEQUENCE CLINIC_APPOINTMENTS_SEQUENCE RESTART WITH ?1", nativeQuery = true)
     void resetSequence(Integer restartWith);
 
-    //ClinicAppointments findByAppointmentId(Long appointmentId);
-
-    Optional<ClinicAppointments> findByAppointmentId(Long appointmentId);
+    ClinicAppointments findByAppointmentId(Long appointmentId);
 
     @Modifying
     @Transactional
-    void deleteByAppointmentId(Long appointmentId);
+    @Query(value = "UPDATE CLINIC_APPOINTMENTS a SET a.START_DATE = ?2, a.END_DATE = ?3 WHERE a.APPOINTMENT_ID = ?1", nativeQuery = true)
+    Optional<Integer> updateAppointmentStartDateAndAppointmentEndDateByAppointmentId(Long patientId, LocalDateTime startDate, LocalDateTime endDate);
 
     @Modifying
     @Transactional
@@ -42,4 +42,9 @@ public interface ClinicAppointmentsRepository extends JpaRepository<ClinicAppoin
     @Transactional
     @Query(value = "DELETE FROM CLINIC_APPOINTMENTS a WHERE a.PATIENT_ID = ?1", nativeQuery = true)
     void deleteClinicAppointmentByPatientId(Long patientId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM CLINIC_APPOINTMENTS a WHERE a.APPOINTMENT_ID = ?1", nativeQuery = true)
+    Integer deleteClinicAppointmentByAppointmentId(Long appointmentId);
 }
